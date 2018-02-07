@@ -1,0 +1,39 @@
+h1 {
+    color:black;
+    font-size: 24px;
+    font: "Book Antiqua";
+    left: 800px;
+}
+
+p {
+    color: black;
+    font-size: 12px;
+    font: "Book Antiqua";
+    text-align: center;
+}
+
+numbas {
+    color: black;
+    font-size: 12px;
+    font: "Courier";
+}
+
+cornerTitle {
+    color: red;
+    font-size: 12px;
+    font: "Book Antiqua";
+    position: absolute;
+    right: 0px;
+    top: 2px;
+}
+
+
+
+rules {
+    color: black;
+    font-size: 44px;
+    font: "Times New Roman";
+    position: absolute;
+    left: 800px;
+    bottom: 0;
+}
