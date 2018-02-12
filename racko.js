@@ -47,8 +47,8 @@ function setup(){
     swap8 = new swapButton(425, 410, 8);
     swap9 = new swapButton(500, 430, 9);
     endGame = new gameOver();
-    debuggyBoi = new debuggingText();
-    
+    //debuggyBoi = new debuggingText();
+    swappingText = new swapText();
 }
 
 function draw(){
@@ -71,6 +71,7 @@ function draw(){
     swap8.display();
     swap9.display();
     endGame.display();
+    swappingText.display();
 
     //used to display global "timeTo" variables
     //debuggyBoi.display();
@@ -137,6 +138,18 @@ function mainDeck(deckSize, x, y){
             return true;
         } else{
             return false;
+        }
+    }
+}
+
+function swapText(){
+
+    this.display = function(){
+
+        if(timeToSwap){
+            push();
+            textSize(16);
+            text("Select a card to swap with.", 290, 265);
         }
     }
 }
@@ -300,28 +313,30 @@ function swapButton(x, y, cardNum){
 
     this.display = function(){
 
-        // the yellow button itself
-        push();
-        stroke(0);
-        fill(255,255,0);
-        rect(this.x, this.y, 50, 50);
-        pop();
-
-        // the text on the button depending on the current player
-        if(currentPlayer == 1){
+        if(timeToSwap == 1){
+            // the yellow button itself
             push();
-            fill(0);
-            textSize(12);
-            text(player1.hand[this.cardNum], this.x + 17, this.y + 30);
+            stroke(0);
+            fill(255,255,0);
+            rect(this.x, this.y, 50, 50);
             pop();
-        }
 
-        else if(currentPlayer == 2){
-            push();
-            fill(0);
-            textSize(12);
-            text(player2.hand[this.cardNum], this.x + 17, this.y + 30);
-            pop();
+            // the text on the button depending on the current player
+            if(currentPlayer == 1){
+                push();
+                fill(0);
+                textSize(12);
+                text(player1.hand[this.cardNum], this.x + 17, this.y + 30);
+                pop();
+            }
+
+            else if(currentPlayer == 2){
+                push();
+                fill(0);
+                textSize(12);
+                text(player2.hand[this.cardNum], this.x + 17, this.y + 30);
+                pop();
+            }
         }
     }
 
