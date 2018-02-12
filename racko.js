@@ -16,11 +16,8 @@ var winner = 0;
 //swap card
 var cardToSwap = -1;
 
-//TODO: WRITE A CURRENT PLAYER DISPLAY
-//TODO: WRITE OUT THE FUNCTIONS FOR DRAWING CARDS
-
-var CARD_LENGTH = 150;
-var CARD_WIDTH = 92;
+const CARD_LENGTH = 150;
+const CARD_WIDTH = 92;
 
 function setup(){
 
@@ -280,13 +277,15 @@ function player(name, score, playerNum){
 
             //checks for sequence
             if(i < 9){
-                if(this.hand[i - 1] + 1 == this.hand[i] && this.hand[i] + 1 == this.hand[i + 1])
+                if(this.hand[i - 1] == this.hand[i] + 1 && this.hand[i] - 1 == this.hand[i + 1]){
+                    
                     sequence = true;
+                }
             }
         }
 
         if (sequence == false)
-            retval = 0;
+            retVal = 0;
 
         return retVal;
     }
@@ -364,7 +363,6 @@ function nextTurn(){
 
     this.x = 225;
     this.y = 150;
-    
     this.display = function(){
         
         if(turnSwitch){
@@ -422,12 +420,14 @@ function switchPlayers(){
 
     //check for winner
     winner = player1.checkForWinner();
-    if(!winner){
+
+    if(winner == 0){
 
         winner = player2.checkForWinner();
     }
 
-    if(!winner){
+    //neither player has won yet
+    if(winner == 0){
         turnSwitch = 1;
 
         if(currentPlayer == 1){
@@ -529,6 +529,7 @@ function mouseClicked(){
             newTurn();
             turnSwitch = 0;
 
+            //shuffle the discard deck into the maindeck when out of cards
             if(mainDeck.deckSize == 0){
 
                 
@@ -545,12 +546,6 @@ function mouseClicked(){
                 
                 extra.value = 0;
                 
-            }
-         
-            winner = player1.checkForWinner();
-            if(!winner){
-
-                winner = player2.checkForWinner();
             }
         }
     }
