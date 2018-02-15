@@ -478,7 +478,8 @@ function newTurn(){
 }
 
 //handles all of the moving of cards whenever something is clicked
-function mouseClicked(){
+//function mouseClicked(){
+function touchEnded(){
 
     // check if the mouse was inside 
     swap0.mouseInBoxSwap();
