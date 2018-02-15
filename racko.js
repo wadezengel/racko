@@ -234,6 +234,7 @@ function player(name, score, playerNum){
     this.name = name;
     this.score = score;
     this.hand = [];
+    this.colors = ['#e33a27', '#e58003', '#d8e507', '#51e507', '#06e379', '#066ee3', '#7d06e3', '#d606e3', '#e3065f', '#e3061c'];
 
     this.display = function(){
 
@@ -243,7 +244,7 @@ function player(name, score, playerNum){
 
             push();
             stroke(0);
-            fill(200, 200, 200);
+            fill(this.colors[i]);
             rect(this.x, this.y + yCounter, CARD_LENGTH, CARD_WIDTH);
             pop();
 
@@ -310,6 +311,8 @@ function swapButton(x, y, cardNum){
     this.x = x;
     this.y = y;
     this.cardNum = cardNum;
+    this.colors = ['#e33a27', '#e58003', '#d8e507', '#51e507', '#06e379', '#066ee3', '#7d06e3', '#d606e3', '#e3065f', '#e3061c'];
+    
 
     this.display = function(){
 
@@ -317,7 +320,7 @@ function swapButton(x, y, cardNum){
             // the yellow button itself
             push();
             stroke(0);
-            fill(255,255,0);
+            fill(this.colors[this.cardNum]);
             rect(this.x, this.y, 50, 50);
             pop();
 
