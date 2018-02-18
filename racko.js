@@ -13,6 +13,9 @@ var currentPlayer, nextCurrentPlayer;
 //0 with no winner or the number of the winning player
 var winner = 0;
 
+//to check if the mouse or touch was dragged
+var wasDragged = false;
+
 //swap card
 var cardToSwap = -1;
 
@@ -477,6 +480,11 @@ function newTurn(){
     currentPlayer = nextCurrentPlayer;
 }
 
+function touchDragged(){
+
+    wasDragged = true;
+}
+
 //handles all of the moving of cards whenever something is clicked
 //function mouseClicked(){
 function touchEnded(){
@@ -493,80 +501,87 @@ function touchEnded(){
     swap8.mouseInBoxSwap();
     swap9.mouseInBoxSwap();
 
-    if(!turnSwitch){
-        //draws a card from the discard deck 
-        if(timeToDraw == 1 && discardDeck.mouseInBox()){
-            timeToDraw = 0;
-            timeToDiscard = 0;
-            timeToSwap = 1;
-            discardDeck.drawCard(extra);
-        }
-
-        //draws a card from the main deck
-        else if(timeToDraw == 1 && mainDeck.mouseInBox()){
-            timeToDraw = 0;
-            timeToDiscard = 1;
-            timeToSwap = 1;
-            mainDeck.drawCard(extra);
-        }
-
-        //places drawn card into discard deck
-        else if(timeToDiscard == 1 && discardDeck.mouseInBox()){
-            timeToDraw = 1;
-            timeToDiscard = 0;
-            timeToSwap = 0;
-            discardDeck.addCard(extra.value);
-            extra.value = 0;
-            switchPlayers();
-        }
-
-        //swap the extra card with a card in your tray
-        else if(timeToSwap == 1 && cardToSwap > -1){
-
-            if(currentPlayer == 1){
-                discardDeck.addCard(player1.hand[cardToSwap]);
-                player1.hand[cardToSwap] = extra.value;
-            }
-            else{
-                discardDeck.addCard(player2.hand[cardToSwap]);
-                player2.hand[cardToSwap] = extra.value;
+    if(wasDragged == false){
+        if(!turnSwitch){
+            //draws a card from the discard deck 
+            if(timeToDraw == 1 && discardDeck.mouseInBox()){
+                timeToDraw = 0;
+                timeToDiscard = 0;
+                timeToSwap = 1;
+                discardDeck.drawCard(extra);
             }
 
-            extra.value = 0;
-            timeToSwap = 0;
-            timeToDiscard = 0;
-            timeToDraw = 1;
-            cardToSwap = -1;
-            switchPlayers();
+            //draws a card from the main deck
+            else if(timeToDraw == 1 && mainDeck.mouseInBox()){
+                timeToDraw = 0;
+                timeToDiscard = 1;
+                timeToSwap = 1;
+                mainDeck.drawCard(extra);
+            }
+
+            //places drawn card into discard deck
+            else if(timeToDiscard == 1 && discardDeck.mouseInBox()){
+                timeToDraw = 1;
+                timeToDiscard = 0;
+                timeToSwap = 0;
+                discardDeck.addCard(extra.value);
+                extra.value = 0;
+                switchPlayers();
+            }
+
+            //swap the extra card with a card in your tray
+            else if(timeToSwap == 1 && cardToSwap > -1){
+
+                if(currentPlayer == 1){
+                    discardDeck.addCard(player1.hand[cardToSwap]);
+                    player1.hand[cardToSwap] = extra.value;
+                }
+                else{
+                    discardDeck.addCard(player2.hand[cardToSwap]);
+                    player2.hand[cardToSwap] = extra.value;
+                }
+
+                extra.value = 0;
+                timeToSwap = 0;
+                timeToDiscard = 0;
+                timeToDraw = 1;
+                cardToSwap = -1;
+                switchPlayers();
+            }
+        }
+
+        else{
+
+            if(nextTurnButton.mouseInBox()){
+
+                newTurn();
+                turnSwitch = 0;
+
+                //shuffle the discard deck into the maindeck when out of cards
+                if(mainDeck.deckSize == 0){
+
+
+                    discardDeck.drawCard(extra);
+
+                    mainDeck.deck = discardDeck.deck;
+                    mainDeck.deckSize = discardDeck.deckSize;
+
+                    mainDeck.shuffle();
+                
+                    discardDeck.deck = [];
+                    discardDeck.deckSize = 0;
+                    discardDeck.addCard(extra.value);
+
+                    extra.value = 0;
+
+                }
+            }
         }
     }
 
+    //if the screen was dragged the above is not run, then the wasDragged vawriable is reset back to false
     else{
-
-        if(nextTurnButton.mouseInBox()){
-
-            newTurn();
-            turnSwitch = 0;
-
-            //shuffle the discard deck into the maindeck when out of cards
-            if(mainDeck.deckSize == 0){
-
-                
-                discardDeck.drawCard(extra);
-                
-                mainDeck.deck = discardDeck.deck;
-                mainDeck.deckSize = discardDeck.deckSize;
-                
-                mainDeck.shuffle();
-               
-                discardDeck.deck = [];
-                discardDeck.deckSize = 0;
-                discardDeck.addCard(extra.value);
-                
-                extra.value = 0;
-                
-            }
-        }
+        wasDragged = false;
     }
 }
 
